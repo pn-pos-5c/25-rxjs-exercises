@@ -84,6 +84,9 @@ window.onload = () => {
     registerClick('btnMultipleClicks', btnMultipleClicks);
     registerClick('btnFixShare', btnFixShare);
     registerClick('btnWebSequentialList', btnWebSequentialList);
+    registerClick('btnBmi', btnBmi);
+    registerClick('btnWebCascading', btnWebCascading);
+    registerClick('btnWebParallel', btnWebParallel);
     // #endregion
 
     // #region ------------------------------------------------------------------ global observers
@@ -120,6 +123,90 @@ window.onload = () => {
             debounceTime(1000),
             map(_ => +totalDistance.toFixed(1))
         ).subscribe(RxJsVisualizer.observerForLine(1));
+    }
+
+    // #endregion
+
+    // #region
+    function btnBmi() {
+        RxJsVisualizer.prepareCanvas(['weight', 'height', 'BMI']);
+        const lblWeight = document.getElementById('lblWeight');
+        const lblHeight = document.getElementById('lblHeight');
+        const lblBmi = document.getElementById('lblBmi');
+
+        const weightObs = Rx.fromEvent(document.getElementById('sldWeight'), 'input').pipe(
+            map(x => x.target.value),
+            startWith(70),
+            tap(x => lblWeight.textContent = x)
+        );
+        weightObs.subscribe(RxJsVisualizer.observerForLine(0));
+
+        const heightObs = Rx.fromEvent(document.getElementById('sldHeight'), 'input').pipe(
+            map(x => x.target.value),
+            startWith(180),
+            tap(x => lblHeight.textContent = x)
+        );
+        heightObs.subscribe(RxJsVisualizer.observerForLine(1));
+
+        Rx.combineLatest(weightObs, heightObs).pipe(
+            map(([weight, height]) => {
+                const bmi = (weight / Math.pow(height / 100, 2));
+                lblBmi.textContent = bmi;
+                return bmi;
+            })
+        ).subscribe(RxJsVisualizer.observerForLine(2));
+    }
+
+    // #endregion
+
+    // #region
+    function btnWebCascading() {
+        RxJsVisualizer.prepareCanvas(['commentId', 'postId', 'userId', 'username']);
+        const lblCommentId = document.getElementById('lblCommentId');
+        const lblUser = document.getElementById('lblUser');
+
+        Rx.fromEvent(document.getElementById('sldCommentId'), 'input').pipe(
+            map(x => x.target.value),
+            tap(x => lblCommentId.textContent = x),
+            draw(0),
+            switchMap(async x => (await fetch(`https://jsonplaceholder.typicode.com/comments/${x}`)).json()),
+            map(x => x.postId),
+            draw(1),
+            switchMap(async x => (await fetch(`https://jsonplaceholder.typicode.com/posts/${x}`)).json()),
+            map(x => x.userId),
+            draw(2),
+            switchMap(async x => (await fetch(`https://jsonplaceholder.typicode.com/users/${x}`)).json()),
+            map(x => `${x.username} [${x.name}]`),
+            tap(x => lblUser.textContent = x)
+        ).subscribe(RxJsVisualizer.observerForLine(3));
+    }
+
+    // #endregion
+
+    // #region
+    function btnWebParallel() {
+        RxJsVisualizer.prepareCanvas(['album', 'todo']);
+
+        const lblUserId = document.getElementById('lblParallelUserId');
+
+        Rx.fromEvent(document.getElementById('sldUserId'), 'input').pipe(
+            map(x => x.target.value),
+            tap(x => lblUserId.textContent = x),
+            switchMap(id => {
+                return Rx.forkJoin(
+                    Rx.from(fetch(`https://jsonplaceholder.typicode.com/albums?userId=${id}`).then(x => x.json())).pipe(
+                        map(a => a.slice(0, 5))
+                    ),
+                    Rx.from(fetch(`https://jsonplaceholder.typicode.com/todos?userId=${id}`).then(x => x.json())).pipe(
+                        map(t => t.slice(0, 5))
+                    )
+                );
+            })
+        ).subscribe(([albums, todos]) => {
+            for (const album of albums.map(a => 'album ' + a.title)) RxJsVisualizer.writeToLine(0, album);
+            for (const todo of todos.map(t => 'todo ' + t.title)) RxJsVisualizer.writeToLine(1, todo);
+        });
+
     }
 
     // #endregion

@@ -1,67 +1,112 @@
 <html>
 
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8"/>
   <title>RxJs Exercises</title>
 
   <script src="lib\jquery\jquery.js"></script>
   <script src="lib\rxjs6\rxjs.umd.min.js"></script>
-  <script src="lib\rxjsvisualizer\rxjs.visualizer.umd.min.js"></script>  <script src="index.js"></script>
+  <script src="lib\rxjsvisualizer\rxjs.visualizer.umd.min.js"></script>
+  <script src="index.js"></script>
   <link rel="stylesheet"
         type="text/css"
         href="index.css">
 </head>
 
 <body>
-  <h1>RxJs Exercises</h1>
-  <table>
-    <tr>
-      <td>Fix share()</td>
-      <td>
-        <button id="btnFixShare">Start</button>
-        <span>fix source-code...</span>
-      </td>
-    </tr>
-    <tr>
-      <td>Mausstrecke</td>
-      <td>
-        <button id="btnMouseDistance">Start</button>
-        <!-- <button id="btnMouseDistanceTotal">Total</!-->
-        <button id="btnMouseDistanceFinish">Finish</button>
-        <span id="lblMouseDistance"
-              hidden="true">Click in window</span>
-      </td>
-    </tr>
-    <tr>
-      <td>Moving Average</td>
-      <td>
-        <button id="btnMovingAverage">Start</button>
-      </td>
-    </tr>
-    <tr>
-      <td>Mehrfachklicks</td>
-      <td>
-        <button id="btnMultipleClicks">Start</button>
-      </td>
-    </tr>
-    <tr>
-      <td>Web sequential list</td>
-      <td>
-        <button id="btnWebSequentialList">Start</button>
-        <label>UserId</label>
-        <span id="lblUserId"></span>
-        <input type="range"
-               min="1"
-               max="10"
-               id="sldUserIdSequential" />
-      </td>
-    </tr>
-  </table>
+<h1>RxJs Exercises</h1>
+<table>
+  <tr>
+    <td>Fix share()</td>
+    <td>
+      <button id="btnFixShare">Start</button>
+      <span>fix source-code...</span>
+    </td>
+  </tr>
+  <tr>
+    <td>Mausstrecke</td>
+    <td>
+      <button id="btnMouseDistance">Start</button>
+      <!-- <button id="btnMouseDistanceTotal">Total</!-->
+      <button id="btnMouseDistanceFinish">Finish</button>
+      <span id="lblMouseDistance"
+            hidden="true">Click in window</span>
+    </td>
+  </tr>
+  <tr>
+    <td>Moving Average</td>
+    <td>
+      <button id="btnMovingAverage">Start</button>
+    </td>
+  </tr>
+  <tr>
+    <td>Mehrfachklicks</td>
+    <td>
+      <button id="btnMultipleClicks">Start</button>
+    </td>
+  </tr>
+  <tr>
+    <td>Web sequential list</td>
+    <td>
+      <button id="btnWebSequentialList">Start</button>
+      <label>UserId</label>
+      <span id="lblUserId"></span>
+      <input type="range"
+             min="1"
+             max="10"
+             id="sldUserIdSequential"/>
+    </td>
+  </tr>
+  <tr>
+    <td>BMI</td>
+    <td>
+      <button id="btnBmi">Start</button>
+      <label>Weight:</label>
+      <span id="lblWeight"></span>kg
+      <input type="range"
+             min="50"
+             max="200"
+             id="sldWeight"/>
+      <label>Height:</label>
+      <span id="lblHeight"></span>cm
+      <input type="range"
+             min="100"
+             max="220"
+             id="sldHeight"/>
+    </td>
+    <td><label>BMI:</label> <span id="lblBmi"></span></td>
+  </tr>
+  <tr>
+    <td>Web cascading</td>
+    <td>
+      <button id="btnWebCascading">Start</button>
+      <label>CommentId:</label>
+      <span id="lblCommentId"></span>
+      <input type="range"
+             min="0"
+             max="499"
+             id="sldCommentId">
+    </td>
+    <td>Commented by <span id="lblUser"></span></td>
+  </tr>
+  <tr>
+    <td>Web parallel</td>
+    <td>
+      <button id="btnWebParallel">Start</button>
+      <label>UserId:</label>
+      <span id="lblParallelUserId"></span>
+      <input type="range"
+             min="0"
+             max="15"
+             id="sldUserId">
+    </td>
+  </tr>
+</table>
 
-  <canvas id="canvas"
-          width="700"
-          height="300"></canvas>
-  <div id="logs">Output comes here</div>
+<canvas id="canvas"
+        width="700"
+        height="300"></canvas>
+<div id="logs">Output comes here</div>
 </body>
 
 </html>
